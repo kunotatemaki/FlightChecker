@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.raul.androidapps.testapplication.R
 import com.raul.androidapps.testapplication.databinding.MainFragmentBinding
+import com.raul.androidapps.testapplication.extensions.nonNull
+import com.raul.androidapps.testapplication.network.ServerResult
 import com.raul.androidapps.testapplication.ui.common.BaseFragment
 
 class MainFragment : BaseFragment() {
@@ -20,13 +23,48 @@ class MainFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false, bindingComponent)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.main_fragment,
+            container,
+            false,
+            bindingComponent
+        )
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+
+        binding.retryButton.setOnClickListener {
+            binding.retryButton.visibility = View.GONE
+            viewModel.startFetchingFlightsAsync()
+        }
+
+        viewModel.getLoading()
+            .nonNull()
+            .observe(this, Observer { loading ->
+                binding.progressCircular.visibility = if (loading) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            })
+
+        viewModel.getResult()
+            .nonNull()
+            .observe(this, Observer { result ->
+                when(result){
+                    is ServerResult.Success -> {
+                        binding.retryButton.visibility = View.GONE
+                    }
+                    is ServerResult.Failure -> {
+                        binding.retryButton.visibility = View.VISIBLE
+                    }
+                }
+            })
+
         viewModel.startFetchingFlightsAsync()
     }
 
