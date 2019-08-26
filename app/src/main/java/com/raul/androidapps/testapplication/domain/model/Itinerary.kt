@@ -1,5 +1,9 @@
 package com.raul.androidapps.testapplication.domain.model
 
+import com.google.gson.annotations.SerializedName
+import com.raul.androidapps.testapplication.R
+import com.raul.androidapps.testapplication.resources.ResourcesManager
+
 
 /**
  * Copyright (C) Rookia - All Rights Reserved
@@ -17,5 +21,8 @@ data class Itinerary constructor(
     val legs: List<Leg>,
     val price: String,
     val agent: String,
-    val agent_rating: Float
-)
+    @SerializedName("agent_rating")
+    val agentRating: Float
+){
+
+}

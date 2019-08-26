@@ -1,5 +1,9 @@
 package com.raul.androidapps.testapplication.domain.model
 
+import com.google.gson.annotations.SerializedName
+import com.raul.androidapps.testapplication.utils.AppConstants
+import com.raul.androidapps.testapplication.utils.DateUtils
+
 
 /**
  * Copyright (C) Rookia - All Rights Reserved
@@ -14,11 +18,33 @@ package com.raul.androidapps.testapplication.domain.model
 
 data class Leg constructor(
     val id: String,
-    val departure_airport: String,
-    val arrival_airport: String,
-    val departure_time: String,
-    val arrival_time: String,
+    @SerializedName("departure_airport")
+    val departureAirport: String,
+    @SerializedName("arrival_airport")
+    val arrivalAirport: String,
+    @SerializedName("departure_time")
+    val departureTime: String,
+    @SerializedName("arrival_time")
+    val arrivalTime: String,
     val stops: Int,
-    val airline_id: String,
-    val duration_mins: Int
-)
+    @SerializedName("airline_name")
+    val airlineName: String,
+    @SerializedName("airline_id")
+    val airlineId: String,
+    @SerializedName("duration_mins")
+    val durationMins: Int
+){
+
+    fun getLogoUrl(): String = AppConstants.BASE_LOGO_URL.replace("{id}", airlineId)
+
+    fun getAirports(): String = "$departureAirport-$arrivalAirport, $airlineName"
+
+    fun getFlightTime(): String = "${DateUtils.getHHmm(departureTime)} - ${DateUtils.getHHmm(arrivalTime)}"
+
+    fun getFlightDuration(): String {
+        val hours = durationMins / 60
+        val min = durationMins%60
+        return "${hours}h ${min}m"
+    }
+
+}

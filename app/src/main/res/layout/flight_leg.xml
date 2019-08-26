@@ -3,18 +3,29 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+                name="leg"
+                type="com.raul.androidapps.testapplication.domain.model.Leg" />
+
+        <variable
+                name="stopsText"
+                type="String" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <ImageView
                 android:id="@+id/logo"
+                imageCenterCropped="@{leg.getLogoUrl()}"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -32,6 +43,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
+                android:text="@{stopsText}"
                 tools:text="Direct" />
 
         <TextView
@@ -40,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:text="@{leg.getFlightDuration()}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -53,12 +66,13 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintVertical_chainStyle="packed"
+                android:text="@{leg.getFlightTime()}"
                 app:layout_constraintBottom_toTopOf="@+id/info"
                 app:layout_constraintEnd_toStartOf="@id/barrier"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@id/logo"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="15:35 - 17:00" />
 
         <TextView
@@ -68,6 +82,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:text="@{leg.getAirports()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/barrier"
                 app:layout_constraintHorizontal_bias="0.5"

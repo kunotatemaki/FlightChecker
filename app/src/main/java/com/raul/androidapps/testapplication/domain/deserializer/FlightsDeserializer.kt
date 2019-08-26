@@ -46,7 +46,7 @@ class FlightsDeserializer : JsonDeserializer<Flight> {
                             id = id,
                             price = price,
                             agent = agent,
-                            agent_rating = agentRating,
+                            agentRating = agentRating,
                             legs = legs
                         )
                     )

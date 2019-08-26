@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">TestApp</string>
     <string name="retry">Retry</string>
+    <string name="via">via</string>
+    <string name="direct">Direct</string>
+    <plurals name="stops">
+        <item quantity="one">stop</item>
+        <item quantity="other">stops</item>
+    </plurals>
 </resources>
