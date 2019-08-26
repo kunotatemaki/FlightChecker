@@ -50,7 +50,6 @@ class RepositoryTest {
         )
         flights = Flight(list)
         MockitoAnnotations.initMocks(this)
-//        repository = RepositoryImpl(networkServiceFactory)
 
         whenever(networkServiceFactory.getServiceInstance())
             .thenReturn(
@@ -82,6 +81,21 @@ class RepositoryTest {
             assertEquals(
                 (response as ServerResult.Failure<Flight>).message.toString(),
                 "Response.error()"
+            )
+        }
+    }
+
+    @Test
+    fun testResponseException() {
+        runBlocking {
+            whenever(api.getFlights())
+                .then {
+                    1 / 0
+                }
+            val response: ServerResult<Flight> = repository.getFlights()
+            assertEquals(
+                (response as ServerResult.Failure<Flight>).message.toString(),
+                "/ by zero"
             )
         }
     }
