@@ -1,7 +1,7 @@
 package com.raul.androidapps.testapplication.ui.main
 
 import androidx.lifecycle.ViewModel
-import com.raul.androidapps.testapplication.domain.ServerResult
+import com.raul.androidapps.testapplication.network.ServerResult
 import com.raul.androidapps.testapplication.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

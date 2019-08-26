@@ -1,9 +1,9 @@
 package com.raul.androidapps.testapplication.repository
 
 
-import com.raul.androidapps.testapplication.domain.ServerResult
 import com.raul.androidapps.testapplication.domain.model.Flights
 import com.raul.androidapps.testapplication.network.NetworkServiceFactory
+import com.raul.androidapps.testapplication.network.ServerResult
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

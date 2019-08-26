@@ -1,10 +1,9 @@
 package com.raul.androidapps.testapplication.domain.deserializer
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonParseException
+import com.google.gson.*
 import com.raul.androidapps.testapplication.domain.model.Flights
+import com.raul.androidapps.testapplication.domain.model.Itinerary
+import com.raul.androidapps.testapplication.domain.model.Leg
 import java.lang.reflect.Type
 
 
@@ -17,42 +16,44 @@ class FlightsDeserializer : JsonDeserializer<Flights> {
     ): Flights? =
 
         try {
-            val listOfFlights: MutableList<Flights> = mutableListOf()
-            val base: String
-            if (json.isJsonObject) {
-                val jsonObject = json.asJsonObject
-                if (jsonObject.get("base").isJsonPrimitive) {
-                    base = jsonObject.get("base")?.asString
-                        ?: throw JsonParseException("Error parsing response: no base value included")
-                } else {
-                    throw JsonParseException("Error parsing response: base value not an String")
-                }
-                listOfFlights.add(
-                    SingleRate(
-                        code = base,
-                        rate = 1.toBigDecimal(),
-                        isBasePrice = true
-                    )
-                )
-                if (jsonObject.get("rates").isJsonObject) {
-                    jsonObject.get("rates").asJsonObject?.let { rates ->
-                        listOfFlights.addAll(
-                            rates.entrySet().map {
-                                SingleRate(
-                                    code = it.key,
-                                    rate = it.value.asBigDecimal,
-                                    isBasePrice = false
-                                )
-                            }
-                        )
-                    }
-                } else {
-                    throw JsonParseException("Error parsing response: no rates value included")
-                }
-                Rates(listOfFlights)
-            } else {
-                throw JsonParseException("Error parsing response: no value included")
+            val listOfItineraries: MutableList<Itinerary> = mutableListOf()
+            val tempListOfLegs: MutableList<Leg> = mutableListOf()
+            val gson = Gson()
+
+            val jsonObject = json.asJsonObject
+
+            jsonObject.get("legs").asJsonArray.forEach {
+                tempListOfLegs.add(gson.fromJson(it, Leg::class.java))
             }
+
+
+            jsonObject.get("itineraries").asJsonArray.forEach {
+                it.asJsonObject.apply {
+                    val id = this.get("id")?.asString ?: ""
+                    val price = this.get("price")?.asString ?: ""
+                    val agent = this.get("agent")?.asString ?: ""
+                    val agentRating = this.get("agent_rating")?.asFloat ?: 0f
+                    val legs: MutableList<Leg> = mutableListOf()
+                    this.get("legs").asJsonArray.forEach { legIdObject ->
+                        val legId = legIdObject.asString
+                        tempListOfLegs.firstOrNull { leg -> leg.id == legId }
+                            ?.let { filteredLeg ->
+                                legs.add(filteredLeg)
+                            }
+                    }
+                    listOfItineraries.add(
+                        Itinerary(
+                            id = id,
+                            price = price,
+                            agent = agent,
+                            agent_rating = agentRating,
+                            legs = legs
+                        )
+                    )
+                }
+            }
+
+            Flights(listOfItineraries)
 
         } catch (e: JsonParseException) {
             null

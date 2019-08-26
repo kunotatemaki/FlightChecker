@@ -14,7 +14,7 @@ package com.raul.androidapps.testapplication.domain.model
 
 data class Itinerary constructor(
     val id: String,
-    val legs: List<String>,
+    val legs: List<Leg>,
     val price: String,
     val agent: String,
     val agent_rating: Float

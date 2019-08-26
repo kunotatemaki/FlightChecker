@@ -1,5 +1,8 @@
 package com.raul.androidapps.testapplication.domain.model
 
+import com.google.gson.annotations.JsonAdapter
+import com.raul.androidapps.testapplication.domain.deserializer.FlightsDeserializer
+
 
 /**
  * Copyright (C) Rookia - All Rights Reserved
@@ -13,7 +16,7 @@ package com.raul.androidapps.testapplication.domain.model
  */
 
 
+@JsonAdapter(FlightsDeserializer::class)
 data class Flights constructor(
-    val itineraries: List<Itinerary>,
-    val legs: List<Leg>
+    val itineraries: List<Itinerary>
 )
