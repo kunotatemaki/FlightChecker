@@ -17,6 +17,6 @@ import com.raul.androidapps.testapplication.domain.deserializer.FlightsDeseriali
 
 
 @JsonAdapter(FlightsDeserializer::class)
-data class Flights constructor(
+data class Flight constructor(
     val itineraries: List<Itinerary>
 )

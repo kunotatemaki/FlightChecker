@@ -1,19 +1,19 @@
 package com.raul.androidapps.testapplication.domain.deserializer
 
 import com.google.gson.*
-import com.raul.androidapps.testapplication.domain.model.Flights
+import com.raul.androidapps.testapplication.domain.model.Flight
 import com.raul.androidapps.testapplication.domain.model.Itinerary
 import com.raul.androidapps.testapplication.domain.model.Leg
 import java.lang.reflect.Type
 
 
-class FlightsDeserializer : JsonDeserializer<Flights> {
+class FlightsDeserializer : JsonDeserializer<Flight> {
 
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type,
         context: JsonDeserializationContext
-    ): Flights? =
+    ): Flight? =
 
         try {
             val listOfItineraries: MutableList<Itinerary> = mutableListOf()
@@ -53,7 +53,7 @@ class FlightsDeserializer : JsonDeserializer<Flights> {
                 }
             }
 
-            Flights(listOfItineraries)
+            Flight(listOfItineraries)
 
         } catch (e: JsonParseException) {
             null

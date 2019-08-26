@@ -18,6 +18,7 @@ class MainFragment : BaseFragment() {
     private lateinit var binding: MainFragmentBinding
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var adapter: FlightsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +43,9 @@ class MainFragment : BaseFragment() {
             viewModel.startFetchingFlightsAsync()
         }
 
+        adapter = FlightsAdapter(resourcesManager = resourcesManager, bindingComponent = bindingComponent)
+        binding.list.adapter = adapter
+
         viewModel.getLoading()
             .nonNull()
             .observe(this, Observer { loading ->
@@ -55,9 +59,10 @@ class MainFragment : BaseFragment() {
         viewModel.getResult()
             .nonNull()
             .observe(this, Observer { result ->
-                when(result){
+                when (result) {
                     is ServerResult.Success -> {
                         binding.retryButton.visibility = View.GONE
+                        adapter.submitList(result.data.itineraries)
                     }
                     is ServerResult.Failure -> {
                         binding.retryButton.visibility = View.VISIBLE

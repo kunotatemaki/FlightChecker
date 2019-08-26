@@ -1,7 +1,7 @@
 package com.raul.androidapps.testapplication.repository
 
 
-import com.raul.androidapps.testapplication.domain.model.Flights
+import com.raul.androidapps.testapplication.domain.model.Flight
 import com.raul.androidapps.testapplication.network.NetworkServiceFactory
 import com.raul.androidapps.testapplication.network.ServerResult
 import timber.log.Timber
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class RepositoryImpl @Inject constructor(private val networkServiceFactory: NetworkServiceFactory) :
     Repository {
-    override suspend fun getFlights(): ServerResult<Flights> {
+    override suspend fun getFlights(): ServerResult<Flight> {
         return try {
             val resp = networkServiceFactory.getServiceInstance().getFlights(
             )
@@ -20,7 +20,7 @@ class RepositoryImpl @Inject constructor(private val networkServiceFactory: Netw
                 if (resp.isSuccessful) {
                     ServerResult.Success(it)
                 } else {
-                    ServerResult.Failure<Flights>(resp.message())
+                    ServerResult.Failure<Flight>(resp.message())
                 }
             } ?: ServerResult.Failure(resp.message())
         } catch (e: Throwable) {

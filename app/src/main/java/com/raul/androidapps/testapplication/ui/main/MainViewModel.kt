@@ -3,7 +3,7 @@ package com.raul.androidapps.testapplication.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.raul.androidapps.testapplication.domain.model.Flights
+import com.raul.androidapps.testapplication.domain.model.Flight
 import com.raul.androidapps.testapplication.network.ServerResult
 import com.raul.androidapps.testapplication.repository.Repository
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +17,7 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
     private var viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private val result: MutableLiveData<ServerResult<Flights>> = MutableLiveData()
+    private val result: MutableLiveData<ServerResult<Flight>> = MutableLiveData()
     private val loading: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun onCleared() {
@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
 
     fun getLoading(): LiveData<Boolean> = loading
 
-    fun getResult(): LiveData<ServerResult<Flights>> = result
+    fun getResult(): LiveData<ServerResult<Flight>> = result
 
     fun startFetchingFlightsAsync() {
         loading.value = true
