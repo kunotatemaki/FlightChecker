@@ -36,7 +36,7 @@ class FlightsAdapter(
 
 
     override fun onBindViewHolder(holder: FlightViewHolder, position: Int) {
-        holder.bind(flights[position], position)
+        holder.bind(flights[position])
     }
 
     fun submitList(list: List<Itinerary>?) {
