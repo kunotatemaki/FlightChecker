@@ -1,7 +1,7 @@
 package com.raul.androidapps.testapplication.ui.main
 
 import androidx.lifecycle.ViewModel
-import com.raul.androidapps.testapplication.domain.Resource
+import com.raul.androidapps.testapplication.domain.ServerResult
 import com.raul.androidapps.testapplication.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,9 +23,14 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
     fun startFetchingFlightsAsync() {
         viewModelScope.launch(Dispatchers.IO) {
             val ratesResponse = repository.getFlights()
-            if (ratesResponse.status == Resource.Status.SUCCESS) {
-//                    updateObservableAsync(ratesResponse.data)
+            when(ratesResponse){
+                is ServerResult.Loading -> {}
+                is ServerResult.Success -> {}
+                is ServerResult.Failure -> {}
             }
+//            if (ratesResponse.status == Resource.Status.SUCCESS) {
+//                    updateObservableAsync(ratesResponse.data)
+//            }
 
         }
     }
