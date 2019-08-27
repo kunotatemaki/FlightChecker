@@ -14,8 +14,7 @@ class RepositoryImpl @Inject constructor(private val networkServiceFactory: Netw
     Repository {
     override suspend fun getFlights(): ServerResult<Flight> {
         return try {
-            val resp = networkServiceFactory.getServiceInstance().getFlights(
-            )
+            val resp = networkServiceFactory.getServiceInstance().getFlights()
             resp.body()?.let {
                 if (resp.isSuccessful) {
                     ServerResult.Success(it)
